@@ -70,7 +70,8 @@ def write_to_csv (results, sign_label):
             c = f"h{i}z{_}"
             header.append(a)
             header.append(b)
-            header.append(c)     
+            header.append(c)
+    header.append("sign")   
 
     dataL = []
     dataR = [] 
@@ -97,12 +98,12 @@ def write_to_csv (results, sign_label):
 
                  
     if not os.path.exists("../data/landmarks_own.csv"):
-        with open("../data/landmarks_own.csv", "w") as file:
+        with open("../data/landmarks_own.csv", "w", newline="") as file:
             writer = csv.writer(file)
             writer.writerow(header)
             writer.writerow(data)
     else :
-        with open("../data/landmarks_own.csv","a") as file:
+        with open("../data/landmarks_own.csv","a", newline="") as file:
             writer = csv.writer(file)
             writer.writerow(data)      
          
