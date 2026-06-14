@@ -20,12 +20,13 @@ def main ():
     updated_list.append(list[0])
     for row in list:
         if row[-1] != 'sign':
-            #non empty rows 
-            if not all(float(x) == 0 for x in row[0:126]):
-                if row[-1] in single:
-                    updated_list.append(row)
-                elif not all(float(x) == 0 for x in row[0:63]) and not all(float(x) == 0 for x in row[63:126]) and row[-1] in double:
-                    updated_list.append(row)
+            if len(row) == 127:
+                #non empty rows 
+                if not all(float(x) == 0 for x in row[0:126]):
+                    if row[-1] in single:
+                        updated_list.append(row)
+                    elif not all(float(x) == 0 for x in row[0:63]) and not all(float(x) == 0 for x in row[63:126]) and row[-1] in double:
+                        updated_list.append(row)
     
     print("After cleaning : ",len(updated_list)) 
 
