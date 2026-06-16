@@ -42,6 +42,8 @@ def main():
     #dictionary with keys as unique labels and integers as values
     labels_integers = {label : i for i, label in enumerate(sorted(set(labels)))}
 
+    torch.save(labels_integers, "../models/labels_integers.pth")
+
     #y (integer list)
     labels_ml = [int(labels_integers[x]) for x in labels]
         
@@ -94,7 +96,7 @@ def main():
     with torch.no_grad():
         correct = 0
         for X_batch , y_batch in test_loader:
-            output = model(X_batch) # size - (batch,33)
+            output = model(X_batch) # size - (batch,33) , this calls forward fxn of the class
             predictions = torch.argmax(output, dim = 1) # size - (batch,)
             correct += torch.sum(predictions == y_batch).item()
 
