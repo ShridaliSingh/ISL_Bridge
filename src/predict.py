@@ -1,4 +1,5 @@
 import torch
+import numpy as np
 from train_data import ISLModel
 
 model = ISLModel()
@@ -14,12 +15,13 @@ integers_labels = {value : key for key,value in  labels_integers.items()}
 
 
 def predict_sign(d) -> str:
-    #converting incoming numpy array data into tensor
-    data_x = torch.tensor(d, dtype = torch.float32) #(126,)
+    #converting incoming list data into numpy array and then into tensor
+    data = np.array(d)
+    data_x = torch.tensor(data, dtype = torch.float32) #(126,)
     data_x = torch.unsqueeze(data_x,0) #(1,126)
 
     with torch.no_grad():
-       output = model (data_x)
+       output = model(data_x)
        prediction = torch.argmax(output, dim = 1) #(1,)
        return integers_labels[prediction[0].item()] #string returned
 
