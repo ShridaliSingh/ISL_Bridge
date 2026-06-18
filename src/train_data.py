@@ -53,8 +53,20 @@ def main():
     #labels(as integers) as numpy array , size  (13244,)
     y = np.array(labels_ml, dtype = np.int64)
 
+    #data augmentation
+    left = X[:,0:63]
+    right = X[:,63:126]
+    X_aug = np.hstack((right,left))
+
+    mask = X_aug[:, 0::3] != 0
+    X_aug[:, 0::3][mask] = 1 - X_aug[:, 0::3][mask]
+    y_aug = y.copy()
+
+    X_final = np.vstack((X,X_aug))
+    y_final = np.concatenate((y,y_aug))
+
     #split dataset for training and testing (80/20)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
+    X_train, X_test, y_train, y_test = train_test_split(X_final, y_final, test_size = 0.2, random_state = 42)
     X_train = torch.tensor(X_train, dtype = torch.float32)
     X_test = torch.tensor(X_test, dtype = torch.float32)
     y_train = torch.tensor(y_train, dtype = torch.long)

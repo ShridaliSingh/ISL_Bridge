@@ -43,9 +43,9 @@ def main():
             results = hands.process(rgb_frame)
 
             prediction = "Could not detect"
-            if results.multi_hand_landmarks :
+            if results.multi_hand_landmarks : 
                 dataL = []
-                dataR = [] 
+                dataR = []
                 for i,hand in enumerate(results.multi_hand_landmarks):
                     label = results.multi_handedness[i].classification[0].label
                     if label.lower() == "left":
