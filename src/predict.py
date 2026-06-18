@@ -5,7 +5,7 @@ from train_data import ISLModel
 model = ISLModel()
 weights = torch.load("../models/isl_model.pth")
 model.load_state_dict(weights)
-model.eval()
+model.eval() #switching to evaluation mode - Dropout is disabled
 
 #key - labels, value - integers
 labels_integers = torch.load("../models/labels_integers.pth")

@@ -15,14 +15,18 @@ class ISLModel(nn.Module):
         self.fc2 = nn.Linear(256,128)
         self.fc3 = nn.Linear(128,64)
         self.fc4 = nn.Linear(64,33)
+        self.Dropout = nn.Dropout(0.2)
     
     def forward(self,x):
         x = self.fc1(x) #input went in thru input layer
         x = nn.functional.relu(x)
+        x = self.Dropout(x)
         x = self.fc2(x)
         x = nn.functional.relu(x)
+        x = self.Dropout(x)
         x = self.fc3(x)
         x = nn.functional.relu(x)
+        x = self.Dropout(x)
         x = self.fc4(x) #out thru the output layer
         return x
 
@@ -87,35 +91,45 @@ def main():
     loss_fxn = nn.CrossEntropyLoss(class_weights)
     optimizer = optim.Adam(model.parameters(), lr = 0.001)
 
+    best_accuracy = 0
     start = time.time()
+    model.train()
     #training loop of 100 epoch
-    for _ in range(100):
+    for _ in range(400):
         total_loss = 0
         for X_batch, y_batch in train_loader:
             optimizer.zero_grad()
-            predictions = model(X_batch) #forward pass
+            predictions = model(X_batch) #forward pass  
             loss = loss_fxn(predictions, y_batch)
             total_loss += loss.item()
             loss.backward()
             optimizer.step() 
-        #average loss per epoch
+
+        #average loss per 50 epoch
         avg_loss = total_loss / len(train_loader)
-        if _ % 10 == 0 :
-            print(f"{_} Loss : {avg_loss}")
+        
+        if _ % 25 == 0 :
+            #testing during training to keep a check on overfitting
+            model.eval()
+            with torch.no_grad():
+                correct = 0
+                for X_batch , y_batch in test_loader:
+                    output = model(X_batch) # size - (batch,33) , this calls forward fxn of the class
+                    predictions = torch.argmax(output, dim = 1) # size - (batch,)
+                    correct += torch.sum(predictions == y_batch).item()
+
+            accuracy = correct / len(y_test)
+            
+            if accuracy > best_accuracy:
+                torch.save(model.state_dict(), "../models/isl_model.pth")
+                best_accuracy = accuracy
+
+            print(f"{_} epochs, Loss : {avg_loss}, Test Accuracy : {accuracy * 100 :.2f} %" )
+            model.train()
 
     print(f"Training time: {(time.time() - start)/ 60 :.2f} minutes") 
+    print(f"Best Test Accuracy : {best_accuracy * 100 :.2f} %")
 
-    torch.save(model.state_dict(), "../models/isl_model.pth")
-
-    with torch.no_grad():
-        correct = 0
-        for X_batch , y_batch in test_loader:
-            output = model(X_batch) # size - (batch,33) , this calls forward fxn of the class
-            predictions = torch.argmax(output, dim = 1) # size - (batch,)
-            correct += torch.sum(predictions == y_batch).item()
-
-    accuracy = correct / len(y_test)
-    print(f"Accuracy : {accuracy * 100 :.2f} %" )
 
     
 
