@@ -47,11 +47,13 @@ def main():
     #y (integer list)
     labels_ml = [int(labels_integers[x]) for x in labels]
         
-    #dataset as numpy array , size (13244, 126)
+    #dataset as numpy array , size (dataset, 126)
     X = np.array(dataset, dtype = np.float32)
 
-    #labels(as integers) as numpy array , size  (13244,)
+    #labels(as integers) as numpy array , size  (dataset,)
     y = np.array(labels_ml, dtype = np.int64)
+    cw = len(y)/ (33 * np.bincount(y))
+    class_weights = torch.tensor(cw,dtype = torch.float32)
 
     #data augmentation
     left = X[:,0:63]
@@ -82,7 +84,7 @@ def main():
 
     #initializing model, loss fxn and optimizer
     model = ISLModel()
-    loss_fxn = nn.CrossEntropyLoss()
+    loss_fxn = nn.CrossEntropyLoss(class_weights)
     optimizer = optim.Adam(model.parameters(), lr = 0.001)
 
     start = time.time()
