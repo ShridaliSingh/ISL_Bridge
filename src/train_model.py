@@ -6,29 +6,9 @@ from torch.utils.data import TensorDataset, DataLoader
 import torch.nn as nn
 import torch.optim as optim
 import time
+from model import ISLModel
 
-#defining model
-class ISLModel(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.fc1 = nn.Linear(126,256) #(in,out)
-        self.fc2 = nn.Linear(256,128)
-        self.fc3 = nn.Linear(128,64)
-        self.fc4 = nn.Linear(64,33)
-        self.Dropout = nn.Dropout(0.2)
-    
-    def forward(self,x):
-        x = self.fc1(x) #input went in thru input layer
-        x = nn.functional.relu(x)
-        x = self.Dropout(x)
-        x = self.fc2(x)
-        x = nn.functional.relu(x)
-        x = self.Dropout(x)
-        x = self.fc3(x)
-        x = nn.functional.relu(x)
-        x = self.Dropout(x)
-        x = self.fc4(x) #out thru the output layer
-        return x
+
 
 def main():
     #X
@@ -130,8 +110,6 @@ def main():
     print(f"Training time: {(time.time() - start)/ 60 :.2f} minutes") 
     print(f"Best Test Accuracy : {best_accuracy * 100 :.2f} %")
 
-
-    
 
 if __name__=="__main__":
     main()

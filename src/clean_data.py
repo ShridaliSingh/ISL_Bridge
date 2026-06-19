@@ -3,7 +3,7 @@ from collections import Counter
 
 def main ():
 
-    single = ['C','L','O','U','V','0','1','2','3','4','5','6','7','8','9']   
+    single = ['C','L','O','U','V','0','1','2','3','4','5','6','7','8','9','SPACE']   
     double = ['A','B','D','E','F','G','I','K','M','N','P','Q','R','S','T','W','X','Z']
 
     with open("../data/landmarks_own.csv", "r") as file:

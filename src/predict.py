@@ -1,6 +1,6 @@
 import torch
 import numpy as np
-from train_data import ISLModel
+from model import ISLModel
 
 model = ISLModel()
 weights = torch.load("../models/isl_model.pth")

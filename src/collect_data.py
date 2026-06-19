@@ -15,13 +15,13 @@ def main():
         label = input("Enter the sign you want to record (press enter to stop recording) : ").upper().strip()
 
         while True:
-            if len(label) == 1 and label.isalnum() :
+            if (len(label) == 1 and label.isalnum()) or label == "SPACE" :
                 cap = cv2.VideoCapture(0)
                 record_sign(label,cap)
 
                 label = input("Enter next sign (press enter to stop recording) : ").upper().strip()
 
-            elif (len(label) > 1 or not label.isalnum()) and label != ""  :
+            elif (len(label) > 1 and label != "SPACE") or (not label.isalnum() and label != "")  :
                 label = input("Enter a valid sign (press enter to stop recording) : ").upper().strip()
 
             elif label == "" :
