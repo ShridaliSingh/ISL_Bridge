@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 import os
 from predict import predict_sign
+from text_builder import TextAnalyzer
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 os.environ["GLOG_minloglevel"] = "3"
@@ -10,6 +11,9 @@ mp_hands = mp.solutions.hands
 hands = mp_hands.Hands(max_num_hands = 2, min_detection_confidence = 0.5)
 
 def main():
+
+    text = TextAnalyzer()
+
     choice = input("""Camera input or Video file ?
                 Choose 1 for camera 
                        2 for video file : """).strip()
@@ -43,6 +47,7 @@ def main():
             results = hands.process(rgb_frame)
 
             prediction = "Could not detect"
+            confirmed_sign = None
             if results.multi_hand_landmarks : 
                 dataL = []
                 dataR = []
@@ -67,9 +72,18 @@ def main():
                 else :
                     data = dataL + dataR
 
+                
                 if len(data) == 126:
                     prediction = predict_sign(data)
-            cv2.putText(frame, f"Sign : {prediction}", (10,50), cv2.FONT_HERSHEY_SIMPLEX, 1 , (0,255,255), 2)
+                    confirmed_sign, _, _  = text.process(prediction)
+
+            word_str = "".join(text.word)
+            sentence_str = " ".join(text.sentence)   
+
+            cv2.putText(frame, f"Sign : {confirmed_sign}", (10,50), cv2.FONT_HERSHEY_SIMPLEX, 1 , (0,255,255), 2)
+            cv2.putText(frame, f"Last Word : {word_str}", (10,100), cv2.FONT_HERSHEY_SIMPLEX, 1 , (0,255,255), 2)
+            cv2.putText(frame, f"Sentence : {sentence_str}", (10,150), cv2.FONT_HERSHEY_SIMPLEX, 1 , (0,255,255), 2)
+
             cv2.imshow("Cam",frame)
         elif not success:
             break
