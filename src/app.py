@@ -3,6 +3,7 @@ import mediapipe as mp
 import os
 from predict import predict_sign
 from text_builder import TextAnalyzer
+from speak import speak
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 os.environ["GLOG_minloglevel"] = "3"
@@ -35,10 +36,15 @@ def main():
                 cap = cv2.VideoCapture(video)
                 break
 
+    speech = input("Do you want sentences spoken aloud when you press 'S'? (y/n) ").strip()
 
+    while True:
+        if speech == "y" or speech == "n":
+            break
         else :
-            choice = input("Enter (1/2) : ")
+            speech = input("Enter (y/n) : ").strip()
 
+    sentence_str = ""
     while True:  
         success , frame = cap.read()
         if success:
@@ -94,6 +100,12 @@ def main():
             cap.release()
             cv2.destroyAllWindows()
             break
+        elif key == ord('s'):
+            if speech == "y":
+                if not sentence_str:
+                    pass
+                else:
+                    speak(sentence_str)
 
 if __name__ == "__main__":
     main()
