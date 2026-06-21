@@ -5,9 +5,9 @@ import threading
 
 pygame.mixer.init()
 
-def speak(sentence):
+def speak(sentence,language):
    
-    audio = gTTS(text = sentence, lang = "en")
+    audio = gTTS(text = sentence, lang = language)
     loc = io.BytesIO()
     audio.write_to_fp(loc)
 
