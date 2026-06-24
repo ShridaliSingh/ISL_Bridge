@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>ISL Bridge</title>
+        <script src = "/static/script.js" defer></script>
+    </head>
+
+    <body>
+        <h1>ISL_Bridge : A Fingerspelling Recognition system</h1>
+
+        <div id = "setup-screen">
+            <input type = "radio" name = "source" value = "camera" id = "camera-button">Camera
+            <input type = "radio" name = "source" value = "video" id = "video-button">Video
+
+            <div id = "file-input" style = "display : none">
+                <input type = "file" accept = "video/*" id = "video-file">
+            </div>
+
+            <!start button>
+            <button id ="start" style = "display : none">Start</button>
+
+        </div>
+
+        <div id = "main-screen" style = "display : none">
+
+            <!hidden canvas for capturing frames>
+            <canvas id = "canvas" style = "display : none"></canvas>
+            
+            <!speak button>
+            <button id = "speak">Speak</button>
+
+            <!stop button>
+            <button id = "stop">Stop</button>
+
+            <!video feed of camera or video file>
+            <video id = "video-feed" autoplay></video> 
+
+            <!text boxes>
+            <p id = "confirmed-sign"></p>
+            <p id = "word-formed-so-far"></p>
+            <p id = "sentence"></p>
+
+            <!language dropdown>
+            <select id = "language">
+                <option value = "">Select Language</option>
+            </select>
+        </div>
+    </body>
+
+</html>
