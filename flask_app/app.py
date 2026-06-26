@@ -120,14 +120,17 @@ def speak():
     if not translated_str :
         return jsonify(""), 400
     else :
-        audio = gTTS(text = translated_str, lang = data["code"])
-        loc = io.BytesIO()
-        audio.write_to_fp(loc)
-        loc.seek(0)
+        try :
+            audio = gTTS(text = translated_str, lang = data["code"])
+            loc = io.BytesIO()
+            audio.write_to_fp(loc)
+            loc.seek(0)
+        except ValueError:
+            return jsonify(""), 400
     return send_file(loc, mimetype="audio/mpeg")
 
 
 if __name__ == "__main__":
     log = logging.getLogger('werkzeug')
-    log.setLevel(logging.ERROR)
+    log.setLevel(logging.WARNING)
     app.run(debug = True)
