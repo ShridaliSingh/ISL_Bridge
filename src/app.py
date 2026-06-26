@@ -65,6 +65,7 @@ def main():
     
     sentence_str = ""
     translated_str = ""
+    last_sign = ""
     while True:  
         success , frame = cap.read()
         if success:
@@ -103,6 +104,8 @@ def main():
                     prediction = predict_sign(data)
                     prev_len = len(text.sentence)
                     confirmed_sign, _, _  = text.process(prediction)
+                    if confirmed_sign is not None:
+                        last_sign = confirmed_sign
                     if len(text.sentence) > prev_len:
                         if language != "en":
                             translated_str = translate(" ".join(text.sentence),language)
@@ -111,7 +114,7 @@ def main():
             sentence_str = " ".join(text.sentence)
             display_str = translated_str if language != "en" else sentence_str   
 
-            cv2.putText(frame, f"Sign : {confirmed_sign}", (10,50), cv2.FONT_HERSHEY_SIMPLEX, 1 , (0,255,255), 2)
+            cv2.putText(frame, f"Sign : {last_sign}", (10,50), cv2.FONT_HERSHEY_SIMPLEX, 1 , (0,255,255), 2)
             cv2.putText(frame, f"Last Word : {word_str}", (10,100), cv2.FONT_HERSHEY_SIMPLEX, 1 , (0,255,255), 2)
             font_path = FONT_MAP.get(language, DEFAULT_FONT)
             frame = draw_text(frame, f"Sentence : {display_str}", (10, 150), font_path, 32)

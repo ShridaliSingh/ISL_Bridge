@@ -28,7 +28,7 @@ class TextAnalyzer :
         else :
             self.word = self._add_letter(confirmed_sign)
 
-        return self.sign, self.word, self.sentence
+        return confirmed_sign, self.word, self.sentence
 
             
     def _confirm_sign(self,raw_sign):

@@ -7,6 +7,10 @@
     </head>
 
     <body>
+
+        <!hidden canvas for capturing frames>
+            <canvas id = "canvas" style = "display : none"></canvas>
+
         <h1>ISL_Bridge : A Fingerspelling Recognition system</h1>
 
         <div id = "setup-screen">
@@ -23,9 +27,6 @@
         </div>
 
         <div id = "main-screen" style = "display : none">
-
-            <!hidden canvas for capturing frames>
-            <canvas id = "canvas" style = "display : none"></canvas>
             
             <!speak button>
             <button id = "speak">Speak</button>
@@ -37,13 +38,13 @@
             <video id = "video-feed" autoplay></video> 
 
             <!text boxes>
-            <p id = "confirmed-sign"></p>
-            <p id = "word-formed-so-far"></p>
-            <p id = "sentence"></p>
+            <p>Sign: <span id="confirmed-sign"></span></p>
+            <p>Word: <span id="word-formed-so-far"></span></p>
+            <p>Sentence: <span id="sentence"></span></p>
 
             <!language dropdown>
             <select id = "language">
-                <option value = "">Select Language</option>
+                <option value = "en">english</option>
             </select>
         </div>
     </body>

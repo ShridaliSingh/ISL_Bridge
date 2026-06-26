@@ -1,14 +1,23 @@
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 import torch
 import numpy as np
 from model import ISLModel
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(BASE_DIR, "..", "models", "isl_model.pth")
+labels_path = os.path.join(BASE_DIR, "..", "models", "labels_integers.pth")
+
 model = ISLModel()
-weights = torch.load("../models/isl_model.pth")
+weights = torch.load(model_path)
 model.load_state_dict(weights)
 model.eval() #switching to evaluation mode - Dropout is disabled
 
 #key - labels, value - integers
-labels_integers = torch.load("../models/labels_integers.pth")
+labels_integers = torch.load(labels_path)
 
 #key - integers, value - labels
 integers_labels = {value : key for key,value in  labels_integers.items()}
