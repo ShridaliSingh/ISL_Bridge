@@ -28,6 +28,7 @@ window.onload = function(){
 document.getElementById("camera-button").addEventListener("change", function(){
     document.getElementById("file-input").style.display = "none" //hide file selector 
     document.getElementById("start").style.display = "block"
+    document.getElementById("prompt").style.display = "none"
 })
 
 document.getElementById("video-button").addEventListener("change", function(){
@@ -51,7 +52,7 @@ document.getElementById("start").addEventListener("click", function(){
         }
     }
     document.getElementById("setup-screen").style.display = "none" //hidden
-    document.getElementById("main-screen").style.display = "block" //visible
+    document.getElementById("main-screen").style.display = "flex" //visible
 
     if (document.getElementById("camera-button").checked) {
         // the camera feed will open
@@ -128,7 +129,7 @@ document.getElementById("end").addEventListener("click", function(){
     }
     fetch("/reset")
     document.getElementById("main-screen").style.display = "none" //hidden
-    document.getElementById("goodbye-screen").style.display = "block" //visible
+    document.getElementById("goodbye-screen").style.display = "flex" //visible
 
 })
 
