@@ -1,3 +1,6 @@
+let isRunning = false
+let currentStream = null
+
 window.onload = function(){
     fetch("/languages") // just receiving data
     .then(function(resonse){
@@ -40,7 +43,9 @@ document.getElementById("start").addEventListener("click", function(){
         navigator.mediaDevices.getUserMedia({video: true}).then(function(stream){
             let videoEl = document.getElementById("video-feed")
             videoEl.srcObject = stream
+            currentStream = stream
                 videoEl.addEventListener("loadeddata", function() {
+                isRunning = true
                 sendFrames(videoEl)
                 }) // wait 500ms for video to load
         })
@@ -55,6 +60,7 @@ document.getElementById("start").addEventListener("click", function(){
         let videoEl = document.getElementById("video-feed")
             videoEl.src = url
             videoEl.addEventListener("loadeddata", function() {
+                isRunning = true
                 sendFrames(videoEl)
                     })
     }
@@ -73,6 +79,46 @@ document.getElementById("language").addEventListener("change" , function(){
         document.getElementById("sentence").textContent = data // data is a normal json str
     })
 })
+
+document.getElementById("reset").addEventListener("click", function(){
+    fetch("/reset")
+    .then(function(){
+        document.getElementById("confirmed-sign").textContent = ""
+        document.getElementById("word-formed-so-far").textContent = ""
+        document.getElementById("sentence").textContent = ""
+    })
+})
+
+document.getElementById("stop").addEventListener("click", function(){
+    isRunning = false
+    if (currentStream) {
+    currentStream.getTracks().forEach(track => track.stop())
+    }
+    document.getElementById("main-screen").style.display = "none" //hidden
+    document.getElementById("goodbye-screen").style.display = "block" //visible
+
+})
+
+document.getElementById("speak").addEventListener("click", function(){
+    fetch("/speak", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({code : document.getElementById("language").value})
+    })
+    .then(function(response){
+        if (response.ok){
+            return response.blob()
+        }
+    })
+    .then(function(blob){
+        if (blob){
+            let url = URL.createObjectURL(blob)
+            let audio = new Audio(url)
+            audio.play()
+        }
+    })
+})
+
 
 function sendFrames(video){
     let canvas = document.getElementById("canvas")
@@ -98,6 +144,7 @@ function sendFrames(video){
         document.getElementById("confirmed-sign").textContent = data.sign
         document.getElementById("word-formed-so-far").textContent = data.word
         document.getElementById("sentence").textContent = data.sentence
-        sendFrames(video)
+        if (isRunning){
+        sendFrames(video)}
     })
 }

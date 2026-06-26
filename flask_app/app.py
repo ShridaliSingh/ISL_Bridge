@@ -2,7 +2,7 @@ import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from flask import Flask , render_template , jsonify , request
+from flask import Flask , render_template , jsonify , request, send_file
 from deep_translator import GoogleTranslator
 import cv2
 import mediapipe as mp
@@ -12,7 +12,8 @@ from src.predict import predict_sign
 from src.text_builder import TextAnalyzer
 from src.translate import translate
 import logging
-
+from gtts import gTTS
+import io
 
 app = Flask(__name__)
 
@@ -102,6 +103,28 @@ def translation_when_lang_changed():
         translated_str = translate(" ".join(text.sentence),language_code)
         return jsonify(translated_str)
 
+@app.route("/reset")
+def reset():
+    global last_sign
+    global translated_str
+    last_sign = ""
+    translated_str = ""
+    text.word = []
+    text.sentence = []
+    return jsonify("ok")
+
+@app.route("/speak", methods = ["POST"])
+def speak():
+    global translated_str
+    data = request.get_json()
+    if not translated_str :
+        return jsonify(""), 400
+    else :
+        audio = gTTS(text = translated_str, lang = data["code"])
+        loc = io.BytesIO()
+        audio.write_to_fp(loc)
+        loc.seek(0)
+    return send_file(loc, mimetype="audio/mpeg")
 
 
 if __name__ == "__main__":
