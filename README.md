@@ -14,8 +14,7 @@ ISL Bridge is a real-time tool that helps hearing people understand Indian Sign 
 
 
 # Demo
-
-**Live demo :**
+**Live Demo:** [ISL Bridge on Hugging Face Spaces](https://huggingface.co/spaces/ShridaliSingh/ISL_Bridge)
 
 **Docker Image :**
 
@@ -127,6 +126,8 @@ ISL Bridge is a real-time tool that helps hearing people understand Indian Sign 
 - gTTS uses Google Translate's public endpoint - free, no API key needed.
 - deep_translator used for translation - free, no API key needed.
 - Fonts folder included only 6 Noto Sans font files for Unicode rendering.
+- Video pause/resume timer issue - TextAnalyzer timer continues running during pause, sign held at pause time may confirm immediately on resume.
+- Deployed version on Hugging Face free tier may feel slower than local - frames processed on shared CPU, causing higher inference latency.
 
 
 # Tech Stack 
@@ -151,6 +152,7 @@ ISL Bridge is a real-time tool that helps hearing people understand Indian Sign 
 # Future Scope
 - Expansion of dataset with more signers.
 - LLM prompt improvement.
+- Client-side inference via ONNX to eliminate server-side latency in the deployed version.
 - LSTM for dynamic signs (H,J,Y) - stretch goal, not a confirmed next step.
 
 

@@ -29,7 +29,7 @@ def main():
             break
 
         elif choice == "2":
-            video = input("Enter video file path : ").lower().strip()
+            video = input("Enter video file path : ").strip()
 
             while True:
                 if not os.path.isfile(video):
@@ -37,8 +37,8 @@ def main():
                 else :
                     break
         
-                cap = cv2.VideoCapture(video)
-                break
+            cap = cv2.VideoCapture(video)
+            break
 
     speech = input("Do you want sentences spoken aloud when you press 'S'? (y/n) ").strip().lower()
 
