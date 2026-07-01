@@ -16,7 +16,7 @@ ISL Bridge is a real-time tool that helps hearing people understand Indian Sign 
 # Demo
 **Live Demo:** [ISL Bridge on Hugging Face Spaces](https://huggingface.co/spaces/ShridaliSingh/ISL_Bridge)
 
-**Docker Image :**
+**Docker Image:** [shridalisingh/isl-bridge on Docker Hub](https://hub.docker.com/r/shridalisingh/isl-bridge)
 
 
 # Features 
