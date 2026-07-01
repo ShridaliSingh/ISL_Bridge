@@ -1,0 +1,7 @@
+.venv
+data/
+.env
+notebooks/
+.gitignore
+__pycache__
+*.pyc

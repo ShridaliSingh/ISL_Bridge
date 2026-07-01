@@ -255,7 +255,7 @@ button:hover {
     height: 100%;
     display: block;
     transform: scaleX(-1);
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .right-panel {

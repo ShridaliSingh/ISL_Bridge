@@ -6,7 +6,9 @@ ISL Bridge is a real-time tool that helps hearing people understand Indian Sign 
 
 # Demo
 
-*Demo gif coming soon*
+**Live demo :**
+
+**Docker Image :**
 
 
 # Features 
@@ -63,6 +65,8 @@ ISL Bridge is a real-time tool that helps hearing people understand Indian Sign 
 - Note: Python 3.11 required - MediaPipe's solutions API is incompatible with newer versions.
 - Add Groq API key as `GROQ_API_KEY=your_key_here` in a file called .env in the project root. The API key can be fetched from console.groq.com.
 - Run `pip install -r requirements.txt` to install all the dependencies.
+- Note: `requirements.txt` installs CPU-only PyTorch, sufficient for running the app. 
+- For retraining the model with GPU support, install torch separately: `pip install torch==2.12.0`
 - The trained model is included in the repo. If the user wants to retrain with their own data, run `collect_data.py` first, then `clean_data.py`, then `train_model.py`.
 - Note: `collect_data.py` is a personal data collection script with minimal input validation - designed for developer use, not end-user use.
 
@@ -83,6 +87,22 @@ ISL Bridge is a real-time tool that helps hearing people understand Indian Sign 
 - After fingerspellign a word, show SPACE gesture (dominant hand fist) to confirm a word boundary. 
 - Press 'S' if you want to listen to the sentence formed till that point (will work only if you entered y for the prompt).
 - Press 'Esc' to stop recording.
+
+## Docker 
+- Pull the image: `docker pull shridalisingh/isl-bridge`
+- Run the container: `docker run -p 7860:7860 -e GROQ_API_KEY=your_key_here shridalisingh/isl-bridge`
+- Replace `your_key_here` with your own Groq API key from console.groq.com.
+- Open your browser and go to `localhost:7860`.
+
+## Flask Web Application
+- Run `python flask_app/app.py` from the project root.
+- Open your browser and go to `localhost:7860`.
+- Select camera or video file input.
+- Select your language from the dropdown.
+- Click Start and begin signing.
+- Use the Speak button for audio output.
+- Use Reset to clear and start over.
+- Use End to stop the session.
 
 
 # Known Limitations
@@ -116,12 +136,13 @@ ISL Bridge is a real-time tool that helps hearing people understand Indian Sign 
 | deep-translator | Multilingual translation via Google Translate |
 | Pillow | Unicode text rendering on OpenCV frames |
 | threading | Non-blocking speech playback |
+| Flask | Web application and deployment |
+| Docker | Containerisation for portable deployment |
 
 # Future Scope
-- Flask web deployment (on its way)
 - Expansion of dataset with more signers.
 - LLM prompt improvement.
-- LSTM for dynamic signs (H,J,Y) - it's a stretch goal, not a confirmed next step.
+- LSTM for dynamic signs (H,J,Y) - stretch goal, not a confirmed next step.
 
 
 

@@ -133,4 +133,4 @@ def speak():
 if __name__ == "__main__":
     log = logging.getLogger('werkzeug')
     log.setLevel(logging.WARNING)
-    app.run(debug = True)
+    app.run(host="0.0.0.0", port=7860, debug=False)
