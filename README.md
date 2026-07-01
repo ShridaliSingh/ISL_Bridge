@@ -1,3 +1,12 @@
+---
+title: ISL Bridge
+emoji: 🤝
+colorFrom: blue
+colorTo: purple
+sdk: docker
+app_port: 7860
+---
+
 # ISL Bridge
 ### Real-time Indian Sign Language Fingerspelling Recognition System
 
